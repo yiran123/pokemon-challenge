@@ -15,11 +15,11 @@ const starterPokemon = {
   styleUrls: ['./pokemon.component.scss'],
 })
 export class PokemonComponent implements OnInit {
-  public pokemons$: Observable<Array<PokemonResponse>>;
+  pokemons$: Observable<Array<PokemonResponse>>;
 
-  public pokemons: Array<PokemonResponse> = [];
+  pokemons: Array<PokemonResponse> = [];
 
-  public selectedPokemon: PokemonResponse = null;
+  selectedPokemon: PokemonResponse = null;
 
   constructor(private pokemonService: PokemonService) {}
 

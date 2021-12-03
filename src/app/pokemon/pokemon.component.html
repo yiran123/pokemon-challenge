@@ -1,9 +1,12 @@
 <div class="container">
   <section class="pokemon-card" *ngFor="let pokemon of pokemons; let i = index">
-    <img [src]="pokemon.sprites.other.dream_world.front_default" />
-
+    <div class="img-block">
+      <img [src]="pokemon.sprites.other.dream_world.front_default" />
+    </div>
     <!-- <h3 (click)="selectPokemon(pokemon)">{{ pokemon.species.name }}</h3> -->
-    <p>{{ pokemon.name }}</p>
+    <p>
+      <strong>{{ pokemon.name }}</strong>
+    </p>
     <p>#{{ pokemon.id }}</p>
     <p>weight: {{ pokemon.weight }}</p>
     <p>height: {{ pokemon.height }}</p>
