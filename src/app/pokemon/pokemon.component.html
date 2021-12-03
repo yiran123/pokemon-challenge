@@ -1,0 +1,16 @@
+<div class="container">
+  <section class="pokemon-card" *ngFor="let pokemon of pokemons; let i = index">
+    <img [src]="pokemon.sprites.other.dream_world.front_default" />
+
+    <!-- <h3 (click)="selectPokemon(pokemon)">{{ pokemon.species.name }}</h3> -->
+    <p>{{ pokemon.name }}</p>
+    <p>#{{ pokemon.id }}</p>
+    <p>weight: {{ pokemon.weight }}</p>
+    <p>height: {{ pokemon.height }}</p>
+    <div>
+      <ul *ngFor="let type of pokemon.types">
+        <li>{{ type?.type?.name }}</li>
+      </ul>
+    </div>
+  </section>
+</div>
