@@ -1,19 +1,75 @@
-<div class="container">
-  <section class="pokemon-card" *ngFor="let pokemon of pokemons; let i = index">
+<div *ngIf="!selectedPokemon; else selectedBlock">
+  <div class="container">
+    <section
+      class="pokemon-card"
+      *ngFor="let pokemon of pokemons; let i = index"
+    >
+      <div (click)="openModal(template, pokemon)">
+        <div class="img-block">
+          <img [src]="pokemon.sprites.other.dream_world.front_default" />
+        </div>
+        <!-- <h3 (click)="selectPokemon(pokemon)">{{ pokemon.species.name }}</h3> -->
+        <p>
+          <strong>{{ pokemon.name }}</strong>
+        </p>
+        <p>#{{ pokemon.id }}</p>
+        <p>weight: {{ pokemon.weight }}</p>
+        <p>height: {{ pokemon.height }}</p>
+        <div>
+          <ul *ngFor="let type of pokemon.types">
+            <li>{{ type?.type?.name }}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<ng-template #selectedBlock>
+  <section class="pokemon-card">
     <div class="img-block">
-      <img [src]="pokemon.sprites.other.dream_world.front_default" />
+      <img [src]="selectedPokemon.sprites.other.dream_world.front_default" />
     </div>
     <!-- <h3 (click)="selectPokemon(pokemon)">{{ pokemon.species.name }}</h3> -->
     <p>
-      <strong>{{ pokemon.name }}</strong>
+      <strong>{{ selectedPokemon.name }}</strong>
     </p>
-    <p>#{{ pokemon.id }}</p>
-    <p>weight: {{ pokemon.weight }}</p>
-    <p>height: {{ pokemon.height }}</p>
+    <p>#{{ selectedPokemon.id }}</p>
+    <p>weight: {{ selectedPokemon.weight }}</p>
+    <p>height: {{ selectedPokemon.height }}</p>
     <div>
-      <ul *ngFor="let type of pokemon.types">
+      <ul *ngFor="let type of selectedPokemon.types">
         <li>{{ type?.type?.name }}</li>
       </ul>
     </div>
   </section>
-</div>
+</ng-template>
+
+<ng-template #template>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <h4>Do you want to select the chosen pokemon as your pokemon?</h4>
+  <div class="btn-section">
+    <button
+      class="btn btn-primary"
+      (click)="makeSelection(true)"
+      (click)="modalRef?.hide()"
+    >
+      Yes
+    </button>
+    <button
+      class="btn btn-primary"
+      (click)="makeSelection(false)"
+      (click)="modalRef?.hide()"
+    >
+      No
+    </button>
+  </div>
+</ng-template>

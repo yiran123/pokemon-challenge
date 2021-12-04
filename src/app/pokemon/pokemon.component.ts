@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { PokemonResponse } from '../pokemon.interface';
 import { PokemonService } from '../core/pokemon.service';
 import { debounceTime, distinctUntilChanged, forkJoin, Observable } from 'rxjs';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 const starterPokemon = {
   BULBASAUR: 'bulbasaur',
@@ -15,15 +16,25 @@ const starterPokemon = {
   styleUrls: ['./pokemon.component.scss'],
 })
 export class PokemonComponent implements OnInit {
+  modalRef?: BsModalRef;
   pokemons$: Observable<Array<PokemonResponse>>;
 
   pokemons: Array<PokemonResponse> = [];
 
   selectedPokemon: PokemonResponse = null;
+  tmpSelection: PokemonResponse = null;
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(
+    private pokemonService: PokemonService,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit() {
+    this.selectedPokemon = null;
+    this.getPokemon();
+  }
+
+  getPokemon() {
     forkJoin(
       Object.values(starterPokemon).map((pokemonType) =>
         this.pokemonService.fetchPokemon(pokemonType)
@@ -35,15 +46,16 @@ export class PokemonComponent implements OnInit {
     });
   }
 
-  // getPokemon() {
-  //   this.pokemons$ = forkJoin(
-  //     Object.values(starterPokemon).map((pokemon) => {
-  //       this.pokemonService.fetchPokemon(pokemon);
-  //     })
-  //   );
-  //   // .subscribe((pokemons) => {
-  //   //     this.pokemons = pokemons;
-  //   //     console.log(this.pokemons);
-  //   // });
-  // }
+  openModal(template: TemplateRef<any>, pokemon: PokemonResponse) {
+    this.modalRef = this.modalService.show(template);
+    this.tmpSelection = pokemon;
+  }
+
+  makeSelection(answer: boolean) {
+    if (answer) {
+      this.selectedPokemon = this.tmpSelection;
+    } else {
+      this.tmpSelection = null;
+    }
+  }
 }
