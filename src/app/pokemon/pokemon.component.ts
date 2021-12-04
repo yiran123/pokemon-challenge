@@ -41,7 +41,7 @@ export class PokemonComponent implements OnInit {
       )
     ).subscribe((res) => {
       this.pokemons = res;
-      console.log(this.pokemons);
+      //console.log(this.pokemons);
       //console.log(this.pokemons[0].sprites.other.dream_world.front_default);
     });
   }
